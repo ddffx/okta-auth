@@ -4,7 +4,12 @@ Okta Authentication for ExpressJS (NodeJS).
 
 ## Example
 
-Simple usage:
+### Example application
+
+You can find the example application in the GitHub repository: 
+[wojtekk/okta-test-auth](https://github.com/wojtekk/okta-test-auth)
+
+### Simple usage
 
 Install packages:
 
