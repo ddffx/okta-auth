@@ -32,12 +32,12 @@ Configure an app:
 
 
     app.use(cookieParser());
-    app.use(bodyParser());
+    app.use(bodyParser.urlencoded({ extended: false }));
 
     var sessionOptions = {
       secret: process.env.SESSION_SECRET,
       resave: true,
-      cookie: {maxAge: process.env.SESSION_MAX_AGE},
+      cookie: { maxAge: 1*process.env.SESSION_MAX_AGE},
       rolling: true,
       name: 'my-app-name'
     };
