@@ -13,6 +13,7 @@ let loginUrl;
 let logoutUrl;
 let accessDeniedUrl;
 let appUrl;
+let postLoginHook;
 
 let addDefaultAccessDeniedPage = true;
 
@@ -45,6 +46,10 @@ function setOptions(options) {
     oktaIssuer = options.oktaIssuer;
     oktaEntryPoint = options.oktaEntryPoint;
     oktaCert = options.oktaCert;
+    if(options.postLoginHook && typeof options.postLoginHook === 'function'){
+        postLoginHook = options.postLoginHook;
+    }   
+    
 }
 
 function initPassportSamlStrategy() {
@@ -74,7 +79,13 @@ function initApp(app) {
 
     app.post(oktaDestinationUrl,
         passport.authenticate('saml', {failureRedirect: accessDeniedUrl, failureFlash: true}),
-        (req, res) => res.redirect(appUrl));
+        (req, res) => {
+           if(postLoginHook){
+               postLoginHook(req, res);
+           } else {
+             res.redirect(appUrl);
+           }
+        });
 
     app.get(loginUrl,
         passport.authenticate('saml', {failureRedirect: accessDeniedUrl, failureFlash: true}),
